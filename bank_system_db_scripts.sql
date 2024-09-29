@@ -1,22 +1,26 @@
 CREATE DATABASE BankDB;
 USE BankDB;
-DROP TABLE Transactions;
+DROP TABLE admins;
 SELECT * FROM Transactions;
 show tables;
 
-CREATE TABLE Users (
-    userId VARCHAR(50) PRIMARY KEY,
+-- Users Table
+CREATE TABLE users (
+    user_id VARCHAR(50) PRIMARY KEY,
     name VARCHAR(100),
-    pin VARCHAR(50)
+    pin VARCHAR(4)
 );
 
-CREATE TABLE Accounts (
-    accountId VARCHAR(50) PRIMARY KEY,
-    userId VARCHAR(50),
+
+-- Accounts Table
+CREATE TABLE accounts (
+    account_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id VARCHAR(50),
     balance DOUBLE,
-    FOREIGN KEY (userId) REFERENCES Users(userId)
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+-- Transactions Table
 CREATE TABLE transactions (
     transaction_id INT AUTO_INCREMENT PRIMARY KEY,
     account_id INT,
@@ -26,20 +30,23 @@ CREATE TABLE transactions (
     FOREIGN KEY (account_id) REFERENCES accounts(account_id)
 );
 
-
-CREATE TABLE admin (
-    admin_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL
+-- Admins Table
+CREATE TABLE admins (
+    admin_id VARCHAR(50) PRIMARY KEY,
+    password VARCHAR(100)
 );
-INSERT INTO admin (username, password) VALUES ('admin1', 'pass123');
 
+-- Inserting into Users Table
+INSERT INTO users (user_id, name, pin) VALUES ('user1', 'Bunty', '1111');
+INSERT INTO users (user_id, name, pin) VALUES ('user2', 'Bablu', '2222');
 
-INSERT INTO Users (userId, name, pin) VALUES ('user1', 'Bunty', '1111');
-INSERT INTO Users (userId, name, pin) VALUES ('user2', 'Boss', '2222');
+-- Inserting into Accounts Table
+INSERT INTO accounts (user_id, balance) VALUES ('user1', 1000.00);
+INSERT INTO accounts (user_id, balance) VALUES ('user2', 1500.00);
 
-INSERT INTO Accounts (accountId, userId, balance) VALUES ('acc2', 'user2', 1000);
+-- Inserting into Transactions Table
+INSERT INTO transactions (account_id, transaction_type, amount) VALUES (1, 'Deposit', 1000.00);
+INSERT INTO transactions (account_id, transaction_type, amount) VALUES (2, 'Deposit', 1500.00);
 
-INSERT INTO Transactions (accountId, transactionType, amount) VALUES ('acc1', 'Deposit', 500.00);
-INSERT INTO Transactions (accountId, transactionType, amount) VALUES ('acc1', 'Withdraw', 200.00);
-INSERT INTO Transactions (accountId, transactionType, amount) VALUES ('acc1', 'Transfer', 100.00);
+-- Inserting into Admins Table
+INSERT INTO admins (admin_id, password) VALUES ('admin1', 'pass123');
